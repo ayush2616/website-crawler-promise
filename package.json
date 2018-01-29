@@ -1,0 +1,19 @@
+{
+  "name": "crawler-promise",
+  "version": "1.0.0",
+  "description": "This module is used for crawling the website specified for getting all links",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js",
+    "start":"node app.js"
+  },
+  "author": "ayush saxena",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "cheerio": "^1.0.0-rc.2",
+    "csvdata": "^1.4.0",
+    "ramda": "^0.25.0",
+    "request": "^2.83.0"
+  }
+}
