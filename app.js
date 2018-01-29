@@ -36,6 +36,7 @@ const getLinks = (url) => {
       queueShift();
       reject();
     }
+    console.log("Trying Url "+url);
     request(url, (err, res, html) => {
       if (!R.isNil(visited[url])) {//For checking already visited urls
         queueShift();
@@ -71,11 +72,11 @@ const getLinks = (url) => {
 }
 
 const queueShift = () =>{
-  // console.log(running);
+  // console.log("Concurrent connections "+running);//Uncomment if you want to see concurrent connections
   if(manualShift){
     queue.shift();
   }
-  if(running < max && queue.length>0){
+  if(running < max && queue.length>0){//if running connections are less hit more till max
     while(running<max)
       {
         if(queue.length == 0)
@@ -131,5 +132,20 @@ const startCrawling = url =>{
     console.log("Something went wrong Please try again later");
   })
 }
+
+process.on('SIGINT', function() {
+  console.log("Interrupt signal Wrtting urls to file");
+  let json = Object.keys(visited).map(url =>{
+    let x={};
+    x['Web Urls']=url;
+    return x
+  });
+  csvdata.write('./webLinks.csv',json,{log:false,header: 'Web Urls'}).then(
+    () =>{
+      console.log("Urls writtent to webLinks.csv");
+      process.exit();
+    }
+  )
+});
 
 startCrawling(websiteUrl);
